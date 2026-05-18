@@ -8,16 +8,9 @@ import TextTicker from "@/components/TextTicker";
 import Features from "@/components/Features";
 import StarGrowthChart from "@/components/StarGrowthChart";
 import Contributors from "@/components/Contributors";
-import { Sparkles, Star, ChevronDown, Circle } from "lucide-react";
+import { Sparkles, Star, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
-
-const ROADMAP = [
-  { date: "May 2026", title: "Project Inception", status: "Completed" },
-  { date: "June 2026", title: "Community Expansion", status: "Ongoing" },
-  { date: "Q3 2026", title: "Meme Portal Launch", status: "Planned" },
-  { date: "Q4 2026", title: "Global Tiny Summit", status: "Planned" },
-];
 
 export default function Home() {
   return (
@@ -118,41 +111,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Roadmap Section */}
-      <section className="py-40 bg-slate-50/30">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="flex flex-col items-center text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter uppercase italic">Roadmap</h2>
-            <p className="text-slate-400 font-medium">The path to a tinier future.</p>
-          </div>
-          
-          <div className="space-y-12">
-            {ROADMAP.map((item, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex items-start gap-8 group"
-              >
-                <div className="flex flex-col items-center">
-                  <div className={`w-4 h-4 rounded-full border-2 ${item.status === 'Completed' ? 'bg-yellow-400 border-yellow-400' : 'border-slate-200'} z-10`}></div>
-                  {i !== ROADMAP.length - 1 && <div className="w-px h-24 bg-slate-100"></div>}
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{item.date}</span>
-                  <h4 className="text-xl font-bold text-slate-900 italic tracking-tight">{item.title}</h4>
-                  <span className={`text-[9px] font-black uppercase tracking-widest ${item.status === 'Completed' ? 'text-green-400' : 'text-slate-300'}`}>
-                    {item.status}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <div className="bg-[#FDFDFD] py-32">
         <div className="max-w-7xl mx-auto">
           <Features />
@@ -161,10 +119,6 @@ export default function Home() {
 
       <div className="py-32 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-20 flex flex-col items-center text-center">
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter uppercase italic text-shadow-sm">Meme Wall</h2>
-            <div className="w-12 h-1 bg-yellow-400 rounded-full"></div>
-          </div>
           <MemeGrid />
         </div>
       </div>

@@ -10,6 +10,10 @@ const MESSAGES = [
   "The future is simple. 💛",
   "Built with love. ☀️",
   "Tiny but mighty. 💪",
+  "We are glowing together. 🔥",
+  "Small steps, big impact. 🚀",
+  "Hello from the tiny world! 🌎",
+  "Simplicity is the ultimate sophistication. 🍎",
 ];
 
 const TinyHuman: FC = () => {

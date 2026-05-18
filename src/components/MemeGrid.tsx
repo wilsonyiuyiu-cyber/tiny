@@ -12,8 +12,12 @@ const MEMES = Array.from({ length: 12 }, (_, i) => ({
 
 const MemeGrid: FC = () => {
   return (
-    <section className="w-full py-16 px-6">
+    <section className="w-full py-24 px-6">
       <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col items-center mb-24 text-center">
+          <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em] mb-4">The Archive</span>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase italic">Meme Wall</h2>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {MEMES.map((meme, index) => (
             <motion.div
