@@ -36,9 +36,9 @@ export default function Contributors() {
   if (loading || contributors.length === 0) return null;
 
   return (
-    <div className="flex flex-col items-center gap-6 mt-12 pt-12 border-t border-slate-50">
-      <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Built by Humans</p>
-      <div className="flex flex-wrap justify-center gap-3">
+    <div className="flex flex-col items-center gap-6 mt-8 md:mt-12 pt-8 md:pt-12 border-t border-slate-50 w-full">
+      <p className="text-[9px] md:text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Built by Humans</p>
+      <div className="flex flex-wrap justify-center gap-2 md:gap-3 px-4">
         {contributors.map((c, i) => (
           <motion.a
             key={c.id}
@@ -48,7 +48,7 @@ export default function Contributors() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.05 }}
             whileHover={{ y: -5, scale: 1.1 }}
-            className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow-sm hover:shadow-md transition-all grayscale hover:grayscale-0"
+            className="relative w-7 h-7 md:w-8 md:h-8 rounded-full overflow-hidden border-2 border-white shadow-sm hover:shadow-md transition-all grayscale hover:grayscale-0 flex-shrink-0"
             title={c.login}
           >
             <Image src={c.avatar_url} alt={c.login} fill className="object-cover" />

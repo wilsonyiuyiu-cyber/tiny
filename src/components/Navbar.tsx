@@ -24,6 +24,9 @@ const Navbar: FC = () => {
           <Link href="https://github.com/tinyhumansai/OpenHuman" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
             GitHub
           </Link>
+          <Link href="https://t.me/TinyHumanAi" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
+            Telegram
+          </Link>
           <Link href="https://x.com/i/communities/1967670599784013865" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
             Community
           </Link>

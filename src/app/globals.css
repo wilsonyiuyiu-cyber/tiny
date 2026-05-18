@@ -11,13 +11,20 @@
   --muted: #86868b;
 }
 
-body {
+* {
+  box-sizing: border-box;
+}
+
+html, body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  width: 100%;
+  overflow-x: hidden; /* 徹底禁止左右捲動 */
+  margin: 0;
+  padding: 0;
 }
 
 .bubble-text {
@@ -26,7 +33,7 @@ body {
 
 /* Apple-style thin scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -36,8 +43,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #d1d1d6;
   border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a6;
 }

@@ -8,7 +8,7 @@ import TextTicker from "@/components/TextTicker";
 import Features from "@/components/Features";
 import StarGrowthChart from "@/components/StarGrowthChart";
 import Contributors from "@/components/Contributors";
-import { Sparkles, Star, ChevronDown } from "lucide-react";
+import { Sparkles, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
 
@@ -17,137 +17,83 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-[#FDFDFD]">
       <Navbar />
 
-      <main className="flex-grow pt-32 lg:pt-48 pb-24 px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full border-x border-slate-100/50 -z-0"></div>
+      <main className="flex-grow pt-24 md:pt-32 pb-24 px-4 md:px-8 max-w-[1400px] mx-auto w-full box-border">
+        <div className="grid lg:grid-cols-12 gap-6 md:gap-12 items-start">
+          
+          {/* Left Column: Mascot & Market (4/12) */}
+          <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8 lg:sticky lg:top-24 w-full max-w-full overflow-hidden">
+            <div className="bg-white p-5 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] flex flex-col items-center text-center relative overflow-hidden w-full box-border">
+               <div className="absolute top-0 left-0 w-full h-1 bg-yellow-400"></div>
+               
+               <div className="scale-75 md:scale-100">
+                 <TinyHuman />
+               </div>
 
-        <div className="max-w-5xl mx-auto relative z-10 flex flex-col items-center text-center">
-          {/* Badge */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-4 mb-10"
-          >
-            <div className="px-4 py-1.5 bg-slate-100 rounded-full text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
-              <Sparkles size={12} />
-              Open Source Community
+               <motion.h1 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl md:text-5xl font-black text-slate-900 mt-4 md:mt-8 mb-3 md:mb-4 tracking-tighter uppercase italic"
+                >
+                  Stay <span className="text-yellow-400">Tiny</span>
+                </motion.h1>
+                <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Solana Community</p>
+                
+                <div className="mt-8 flex flex-col gap-3 w-full">
+                   <a href="https://pump.fun/coin/2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump" target="_blank" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-sm active:scale-95">Get $TINY</a>
+                   <Contributors />
+                </div>
             </div>
-            <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 italic font-serif">Powered by OpenHuman</div>
-          </motion.div>
-          
-          {/* Hero Mascot */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
-            className="mb-16"
-          >
-            <TinyHuman />
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.8 }}
-            className="text-7xl md:text-[9.5rem] font-black text-slate-900 mb-12 leading-[0.8] tracking-[-0.05em] uppercase italic"
-          >
-            Stay <br />
-            <span className="text-yellow-400">Tiny</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-400 leading-relaxed mb-16 max-w-xl font-medium"
-          >
-            We are glowing. We are tiny. <br />
-            The most minimalist community on Solana.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-wrap justify-center items-center gap-4 mb-32"
-          >
-            <a 
-              href="https://pump.fun/coin/2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump" 
-              target="_blank"
-              className="px-10 py-5 bg-slate-900 text-white rounded-full font-black uppercase tracking-widest text-[11px] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 active:scale-95"
-            >
-              Get $TINY
-            </a>
-            <a 
-              href="https://github.com/tinyhumansai/OpenHuman"
-              target="_blank"
-              className="px-10 py-5 bg-white text-slate-900 rounded-full font-black uppercase tracking-widest text-[11px] hover:bg-slate-50 transition-all border border-slate-100 shadow-sm active:scale-95 flex items-center gap-3"
-            >
-              <Star size={14} fill="currentColor" className="text-yellow-400" />
-              GitHub
-            </a>
-          </motion.div>
-
-          {/* Stats Grid */}
-          <div className="w-full grid md:grid-cols-2 gap-8 mb-40">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
+            
+            <div className="w-full max-w-full overflow-hidden">
               <TokenPanel />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <StarGrowthChart />
-            </motion.div>
+            </div>
           </div>
 
-          <Contributors />
+          {/* Right Column: GitHub & Memes (8/12) */}
+          <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8 w-full max-w-full overflow-hidden">
+            <div className="w-full max-w-full overflow-hidden">
+              <StarGrowthChart />
+            </div>
+            
+            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] overflow-hidden w-full">
+               <div className="p-6 md:p-10 border-b border-slate-50 flex items-center justify-between">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em]">The Archive</span>
+                    <h3 className="text-lg md:text-2xl font-black text-slate-900 tracking-tight italic uppercase leading-none">Meme Wall</h3>
+                  </div>
+                  <a href="https://t.me/TinyHumanAi" target="_blank" className="p-2 md:p-3 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-900 hover:text-white transition-all shadow-sm group">
+                    <Star size={14} className="md:w-4 md:h-4 group-hover:rotate-12 transition-transform" />
+                  </a>
+               </div>
+               <div className="p-2 md:p-6 w-full overflow-hidden">
+                 <MemeGrid />
+               </div>
+            </div>
+          </div>
+
         </div>
       </main>
 
-      <div className="bg-[#FDFDFD] py-32">
-        <div className="max-w-7xl mx-auto">
-          <Features />
-        </div>
-      </div>
-
-      <div className="py-32 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-6">
-          <MemeGrid />
-        </div>
+      <div className="py-24 border-t border-slate-50">
+        <Features />
       </div>
 
       <TextTicker />
 
-      <footer className="py-24 px-8 border-t border-slate-100 bg-white">
-        <div className="flex flex-col items-center gap-12 max-w-7xl mx-auto text-center">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-100 shadow-sm">
-                <Image src="/memes/1.jpg" alt="Tiny Footer Logo" fill className="object-cover" />
-              </div>
-              <p className="text-slate-900 font-black tracking-tighter italic text-sm">TINY HUMANS</p>
+      <footer className="py-20 md:py-24 px-8 border-t border-slate-100 bg-white">
+        <div className="flex flex-col items-center gap-8 max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-3">
+            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-100 shadow-sm">
+              <Image src="/memes/1.jpg" alt="Tiny Footer Logo" fill className="object-cover" />
             </div>
-            <p className="text-slate-400 text-[9px] font-black uppercase tracking-[0.3em]">
-              Solana Ecosystem • 2026
-            </p>
+            <p className="text-slate-900 font-black tracking-tighter italic text-xs uppercase leading-none">TINY HUMANS</p>
           </div>
-          
-          <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
-            <a href="https://x.com/i/communities/1967670599784013865" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">X (Twitter)</a>
-            <a href="https://t.me/tinymemesolana" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">Telegram</a>
-            <a href="https://github.com/tinyhumansai/OpenHuman" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">GitHub</a>
+          <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-[9px] font-black uppercase tracking-[0.3em] text-slate-300">
+            <a href="https://x.com/i/communities/1967670599784013865" target="_blank" className="hover:text-slate-900 transition-colors">X (Twitter)</a>
+            <a href="https://t.me/TinyHumanAi" target="_blank" className="hover:text-slate-900 transition-colors">Telegram</a>
+            <a href="https://github.com/tinyhumansai/OpenHuman" target="_blank" className="hover:text-slate-900 transition-colors">GitHub</a>
           </div>
-          
-          <p className="text-slate-300 text-[9px] font-medium tracking-widest">
-            © 2026 TINY PROJECT LABS
-          </p>
+          <p className="text-slate-200 text-[8px] font-medium tracking-[0.4em]">© 2026 TINY PROJECT LABS</p>
         </div>
       </footer>
     </div>

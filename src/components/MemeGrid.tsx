@@ -42,7 +42,7 @@ const MemeGrid: FC = () => {
         
         <div className="mt-16 flex justify-center">
           <a 
-            href="https://t.me/tinymemesolana" 
+            href="https://t.me/TinyHumanAi" 
             target="_blank"
             className="px-10 py-4 bg-slate-900 text-white rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-900/10"
           >
