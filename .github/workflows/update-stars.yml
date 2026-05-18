@@ -1,0 +1,14 @@
+name: Update GitHub Stars
+
+on:
+  schedule:
+    - cron: '*/10 * * * *' # 每 10 分鐘執行一次
+  workflow_dispatch: # 允許手動觸發
+
+jobs:
+  update-stars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Sync API
+        run: |
+          curl "https://www.tinyhumansai.online/api/cron/sync-stars?key=SIUQWEHB210938142"

@@ -1,8 +1,3 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/sync-stars?key=SIUQWEHB210938142",
-      "schedule": "0 0 * * *"
-    }
-  ]
+  "cleanUrls": true
 }
