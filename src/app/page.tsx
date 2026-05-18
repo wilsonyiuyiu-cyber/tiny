@@ -7,9 +7,17 @@ import MemeGrid from "@/components/MemeGrid";
 import TextTicker from "@/components/TextTicker";
 import Features from "@/components/Features";
 import StarGrowthChart from "@/components/StarGrowthChart";
-import { Sparkles, Star, ChevronDown } from "lucide-react";
+import Contributors from "@/components/Contributors";
+import { Sparkles, Star, ChevronDown, Circle } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
+
+const ROADMAP = [
+  { date: "May 2026", title: "Project Inception", status: "Completed" },
+  { date: "June 2026", title: "Community Expansion", status: "Ongoing" },
+  { date: "Q3 2026", title: "Meme Portal Launch", status: "Planned" },
+  { date: "Q4 2026", title: "Global Tiny Summit", status: "Planned" },
+];
 
 export default function Home() {
   return (
@@ -17,7 +25,6 @@ export default function Home() {
       <Navbar />
 
       <main className="flex-grow pt-32 lg:pt-48 pb-24 px-6 relative overflow-hidden">
-        {/* Subtle background detail */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full border-x border-slate-100/50 -z-0"></div>
 
         <div className="max-w-5xl mx-auto relative z-10 flex flex-col items-center text-center">
@@ -32,31 +39,17 @@ export default function Home() {
               Open Source Community
             </div>
             <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Powered by OpenHuman</div>
+            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 italic font-serif">Powered by OpenHuman</div>
           </motion.div>
           
+          {/* Hero Mascot */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
             className="mb-16"
           >
-            <div className="relative group">
-              {/* Mascot container with MUJI style */}
-              <div className="w-64 h-64 md:w-80 md:h-80 rounded-[3rem] overflow-hidden border-[12px] border-white shadow-[0_20px_50px_-10px_rgba(0,0,0,0.05)] bg-white relative">
-                <Image 
-                  src="/memes/photo_2026-05-16_08-05-35.jpg" 
-                  alt="Tiny Mascot" 
-                  fill 
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              {/* Floating Badge */}
-              <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-white px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-yellow-400/20 italic">
-                ORIGINAL
-              </div>
-            </div>
+            <TinyHuman />
           </motion.div>
 
           {/* Main Heading */}
@@ -64,7 +57,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.8 }}
-            className="text-7xl md:text-[9rem] font-black text-slate-900 mb-12 leading-[0.9] tracking-[-0.05em] uppercase italic"
+            className="text-7xl md:text-[9.5rem] font-black text-slate-900 mb-12 leading-[0.8] tracking-[-0.05em] uppercase italic"
           >
             Stay <br />
             <span className="text-yellow-400">Tiny</span>
@@ -103,7 +96,7 @@ export default function Home() {
             </a>
           </motion.div>
 
-          {/* Stats & Cards Grid */}
+          {/* Stats Grid */}
           <div className="w-full grid md:grid-cols-2 gap-8 mb-40">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -121,26 +114,55 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-slate-200"
-          >
-            <ChevronDown size={32} />
-          </motion.div>
+          <Contributors />
         </div>
       </main>
 
-      <div className="bg-slate-50/50 py-32">
+      {/* Roadmap Section */}
+      <section className="py-40 bg-slate-50/30">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="flex flex-col items-center text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter uppercase italic">Roadmap</h2>
+            <p className="text-slate-400 font-medium">The path to a tinier future.</p>
+          </div>
+          
+          <div className="space-y-12">
+            {ROADMAP.map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex items-start gap-8 group"
+              >
+                <div className="flex flex-col items-center">
+                  <div className={`w-4 h-4 rounded-full border-2 ${item.status === 'Completed' ? 'bg-yellow-400 border-yellow-400' : 'border-slate-200'} z-10`}></div>
+                  {i !== ROADMAP.length - 1 && <div className="w-px h-24 bg-slate-100"></div>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{item.date}</span>
+                  <h4 className="text-xl font-bold text-slate-900 italic tracking-tight">{item.title}</h4>
+                  <span className={`text-[9px] font-black uppercase tracking-widest ${item.status === 'Completed' ? 'text-green-400' : 'text-slate-300'}`}>
+                    {item.status}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="bg-[#FDFDFD] py-32">
         <div className="max-w-7xl mx-auto">
           <Features />
         </div>
       </div>
 
-      <div className="py-32">
+      <div className="py-32 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-20 flex flex-col items-center text-center">
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter uppercase italic">Meme Wall</h2>
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter uppercase italic text-shadow-sm">Meme Wall</h2>
             <div className="w-12 h-1 bg-yellow-400 rounded-full"></div>
           </div>
           <MemeGrid />
@@ -153,7 +175,7 @@ export default function Home() {
         <div className="flex flex-col items-center gap-12 max-w-7xl mx-auto text-center">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-center gap-3">
-              <div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-100">
+              <div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-100 shadow-sm">
                 <Image src="/memes/1.jpg" alt="Tiny Footer Logo" fill className="object-cover" />
               </div>
               <p className="text-slate-900 font-black tracking-tighter italic text-sm">TINY HUMANS</p>

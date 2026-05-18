@@ -20,10 +20,8 @@ body {
   overflow-x: hidden;
 }
 
-@layer base {
-  .bubble-text {
-    @apply tracking-tight;
-  }
+.bubble-text {
+  letter-spacing: -0.05em;
 }
 
 /* Apple-style thin scrollbar */
