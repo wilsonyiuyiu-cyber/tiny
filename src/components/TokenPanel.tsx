@@ -1,8 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { ExternalLink, TrendingUp, DollarSign, BarChart3, Loader2 } from 'lucide-react';
+import { ExternalLink, TrendingUp, BarChart3, Loader2, ArrowUpRight } from 'lucide-react';
 import { useTokenData } from '@/hooks/useTokenData';
+import { motion } from 'framer-motion';
 
 const TOKEN_ADDRESS = '2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump';
 
@@ -16,77 +17,73 @@ const TokenPanel: FC = () => {
   };
 
   return (
-    <div className="bg-white/40 backdrop-blur-2xl p-8 rounded-[2rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/50 max-w-md w-full relative overflow-hidden group">
-      {/* Decorative background element */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-yellow-200/20 rounded-full blur-3xl group-hover:bg-yellow-300/30 transition-colors duration-700"></div>
-      
-      <div className="flex items-center justify-between mb-8 relative z-10">
-        <h3 className="text-sm font-black text-slate-400 tracking-[0.2em] uppercase">
-          Market Stats {symbol && `• $${symbol}`}
-        </h3>
+    <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-slate-100 flex flex-col h-full">
+      <div className="flex items-center justify-between mb-10">
+        <div className="flex flex-col items-start">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Live Market</span>
+          <h3 className="text-xl font-black text-slate-900 tracking-tight italic">
+            $TINY {symbol && `/ ${symbol}`}
+          </h3>
+        </div>
         <a 
           href={`https://pump.fun/coin/${TOKEN_ADDRESS}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[10px] font-bold bg-slate-900 text-white px-4 py-1.5 rounded-full hover:bg-slate-700 transition-all flex items-center gap-1.5 uppercase tracking-wider"
+          className="p-3 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-900 hover:text-white transition-all shadow-sm group"
         >
-          Trade <ExternalLink size={10} />
+          <ArrowUpRight size={20} className="group-hover:rotate-45 transition-transform" />
         </a>
       </div>
 
-      <div className="space-y-6 relative z-10">
-        <div className="flex flex-col gap-1">
-          <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Current Price</p>
-          <div className="flex items-end justify-between">
+      <div className="flex-grow flex flex-col justify-center gap-10">
+        <div className="flex flex-col gap-2">
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Price USD</p>
+          <div className="flex items-baseline gap-4">
             {loading ? (
-              <Loader2 size={24} className="animate-spin text-slate-300" />
+              <Loader2 size={24} className="animate-spin text-slate-200" />
             ) : (
-              <p className="text-4xl font-black text-slate-900 tracking-tight">
+              <p className="text-5xl font-black text-slate-900 tracking-tighter">
                 ${parseFloat(priceUsd).toFixed(6)}
               </p>
             )}
             {!loading && (
-              <div className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-black ${priceChange24h >= 0 ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
-                <TrendingUp size={14} className={priceChange24h < 0 ? 'rotate-180' : ''} />
+              <span className={`text-sm font-bold ${priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {priceChange24h >= 0 ? '+' : ''}{priceChange24h}%
-              </div>
+              </span>
             )}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 pt-2">
-          <div className="flex flex-col gap-1">
+        <div className="grid grid-cols-2 gap-8">
+          <div className="flex flex-col gap-1.5">
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-              <BarChart3 size={10} /> Market Cap
+              <BarChart3 size={12} /> MCAP
             </p>
             {loading ? (
-              <Loader2 size={16} className="animate-spin text-slate-200" />
+              <div className="h-6 w-20 bg-slate-50 animate-pulse rounded" />
             ) : (
-              <p className="text-xl font-bold text-slate-800">{formatNumber(fdv)}</p>
+              <p className="text-xl font-black text-slate-900 italic tracking-tight">{formatNumber(fdv)}</p>
             )}
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-              <TrendingUp size={10} /> 24h Volume
+              <TrendingUp size={12} /> Volume
             </p>
             {loading ? (
-              <Loader2 size={16} className="animate-spin text-slate-200" />
+              <div className="h-6 w-20 bg-slate-50 animate-pulse rounded" />
             ) : (
-              <p className="text-xl font-bold text-slate-800">{formatNumber(volume24h)}</p>
+              <p className="text-xl font-black text-slate-900 italic tracking-tight">{formatNumber(volume24h)}</p>
             )}
           </div>
         </div>
+      </div>
 
-        <div className="pt-6 border-t border-slate-200/50">
-          <button className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-black py-4 rounded-2xl transition-all shadow-[0_12px_24px_-8px_rgba(234,179,8,0.4)] hover:shadow-[0_16px_32px_-8px_rgba(234,179,8,0.5)] active:scale-[0.98] uppercase tracking-widest text-sm">
-            Buy $TINY Now
-          </button>
-          <div className="mt-4 flex flex-col items-center gap-1">
-            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Contract Address</p>
-            <p className="text-[10px] text-slate-600 font-mono bg-slate-100 px-3 py-1 rounded-md break-all">
-              {TOKEN_ADDRESS}
-            </p>
-          </div>
+      <div className="mt-12 pt-8 border-t border-slate-50">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <p className="text-[9px] text-slate-300 font-bold uppercase tracking-[0.2em]">Contract Address</p>
+          <p className="text-[10px] text-slate-400 font-mono bg-slate-50 px-4 py-2 rounded-xl break-all w-full select-all">
+            {TOKEN_ADDRESS}
+          </p>
         </div>
       </div>
     </div>

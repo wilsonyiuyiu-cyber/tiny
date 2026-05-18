@@ -12,38 +12,26 @@ const MEMES = Array.from({ length: 12 }, (_, i) => ({
 
 const MemeGrid: FC = () => {
   return (
-    <section className="w-full bg-white/40 backdrop-blur-xl py-32 px-6 md:px-20 border-t-2 border-white">
+    <section className="w-full py-16 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-20">
-          <h2 className="text-[12px] font-black text-yellow-500 uppercase tracking-[0.5em] mb-6">The Vault</h2>
-          <h3 className="text-6xl md:text-7xl font-black text-slate-900 tracking-tighter bubble-text italic">
-            TINY MEME ARCHIVE
-          </h3>
-          <div className="mt-8 w-24 h-2 bg-yellow-400 rounded-full"></div>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {MEMES.map((meme, index) => (
             <motion.div
               key={meme.id}
-              initial={{ opacity: 0, scale: 0.9, rotate: index % 2 === 0 ? -2 : 2 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.05, type: "spring" }}
-              whileHover={{ 
-                scale: 1.05, 
-                rotate: index % 2 === 0 ? 2 : -2,
-                zIndex: 20
-              }}
-              className="relative aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-[10px] border-white bg-slate-50 group cursor-pointer tiny-glow"
+              transition={{ delay: index * 0.05 }}
+              whileHover={{ y: -5 }}
+              className="relative aspect-square rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-50 group cursor-pointer border border-slate-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]"
             >
               <Image
                 src={meme.src}
                 alt={meme.alt}
                 fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-125"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-yellow-400/0 group-hover:bg-yellow-400/10 transition-colors duration-500"></div>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500"></div>
             </motion.div>
           ))}
         </div>
@@ -52,9 +40,9 @@ const MemeGrid: FC = () => {
           <a 
             href="https://t.me/tinymemesolana" 
             target="_blank"
-            className="px-12 py-4 bg-white text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest border border-slate-200 hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+            className="px-10 py-4 bg-slate-900 text-white rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-900/10"
           >
-            View More on Telegram
+            View Archive
           </a>
         </div>
       </div>
