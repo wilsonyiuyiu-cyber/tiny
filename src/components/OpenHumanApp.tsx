@@ -125,6 +125,12 @@ const OpenHumanApp: FC = () => {
       } else if (/\b(thank|thanks|great|cool)\b/.test(lowerInput)) {
         aiContent = "You're welcome! Just doing my tiny bit for the community. 🐥";
       }
+      // 4. Contract Address (CA)
+      else if (/\b(ca|contract|address|token)\b/.test(lowerInput)) {
+        const ca = '2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump';
+        aiContent = `The official $TINY contract address is: ${ca}. Always double-check before trading! 🐥`;
+        connections = ['Solana Chain Scan', 'Smart Contract Index'];
+      }
 
       const aiMsg: Message = { 
         id: (Date.now() + 1).toString(), 
@@ -145,15 +151,15 @@ const OpenHumanApp: FC = () => {
       <div className="bg-[#F8F9FA] rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] border border-white overflow-hidden flex flex-col md:flex-row h-[620px] md:h-[700px] relative">
         
         {/* Left Side: Mascot Area */}
-        <div className="md:w-1/2 bg-white flex flex-col items-center justify-center p-6 md:p-12 relative border-b md:border-b-0 md:border-r border-slate-50 min-h-[220px] md:min-h-0 shrink-0 overflow-hidden">
+        <div className="md:w-1/2 bg-white flex flex-col items-center justify-center p-6 md:p-12 relative border-b md:border-b-0 md:border-r border-slate-50 min-h-[380px] md:min-h-0 shrink-0 overflow-hidden">
           
           {/* Demo Mode Badge */}
-          <div className="absolute top-24 left-0 w-full flex justify-center pointer-events-none z-10 opacity-30 select-none">
+          <div className="absolute top-24 left-0 w-full flex justify-center pointer-events-none z-0 opacity-20 select-none">
             <span className="text-4xl md:text-6xl font-black text-slate-100 uppercase tracking-[0.5em] rotate-[-15deg]">Demo Only</span>
           </div>
 
           {/* 118+ Integrations Background Animation */}
-          <div className="absolute inset-0 pointer-events-none opacity-[0.08]">
+          <div className="absolute inset-0 pointer-events-none opacity-[0.08] z-0">
              {[...Array(15)].map((_, i) => (
                <motion.div
                  key={i}
@@ -181,25 +187,32 @@ const OpenHumanApp: FC = () => {
              ))}
           </div>
 
-          <div className="absolute top-4 left-4 md:top-8 md:left-8 flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-full border border-slate-100 z-10">
-             <div className="w-4 h-4 rounded-md border border-slate-200 flex items-center justify-center bg-white">
-                <Check size={10} className="text-blue-500" />
+          <div className="absolute top-4 left-4 md:top-8 md:left-8 flex items-center gap-2 px-2.5 py-1 bg-slate-50 rounded-full border border-slate-100 z-10 scale-90 md:scale-100 origin-left">
+             <div className="w-3.5 h-3.5 rounded-md border border-slate-200 flex items-center justify-center bg-white">
+                <Check size={9} className="text-blue-500" />
              </div>
-             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">Speak replies</span>
+             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-tight">Speak replies</span>
+          </div>
+
+          {/* 118+ Integrations Label */}
+          <div className="absolute top-4 right-4 md:top-8 md:right-8 z-10 scale-90 md:scale-100 origin-right">
+             <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-400 text-slate-900 rounded-full shadow-sm border border-yellow-300">
+                <Zap size={10} fill="currentColor" />
+                <span className="text-[8px] font-black uppercase tracking-widest">118+ via OAuth</span>
+             </div>
           </div>
 
           <motion.div 
             animate={{ 
-              y: isTyping ? [0, -15, 0] : [0, -10, 0],
-              scale: isTyping ? [1, 1.05, 1] : 1,
-              rotate: isTyping ? [0, 2, -2, 0] : 0
+              y: isTyping ? [0, -10, 0] : [0, -5, 0],
+              scale: isTyping ? [1, 1.03, 1] : 1
             }}
             transition={{ 
               duration: isTyping ? 1 : 4, 
               repeat: Infinity, 
               ease: "easeInOut" 
             }}
-            className="relative w-32 h-32 md:w-80 md:h-80 mt-4 md:mt-0"
+            className="relative w-28 h-28 md:w-80 md:h-80 mb-12 md:mb-0 z-1"
           >
              <Image 
                src="/tiny-app.png" 
@@ -208,18 +221,10 @@ const OpenHumanApp: FC = () => {
                className="object-contain drop-shadow-2xl"
              />
           </motion.div>
-
-          {/* 118+ Integrations Label */}
-          <div className="absolute top-4 right-4 md:top-8 md:right-8 z-10">
-             <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-400 text-slate-900 rounded-full shadow-sm border border-yellow-300">
-                <Zap size={10} fill="currentColor" />
-                <span className="text-[8px] font-black uppercase tracking-widest">118+ via OAuth</span>
-             </div>
-          </div>
           
-          <div className="absolute bottom-4 md:bottom-12 flex flex-col items-center gap-4 z-10 w-full">
+          <div className="absolute bottom-4 md:bottom-12 flex flex-col items-center gap-3 z-10 w-full px-4">
             <div className="flex items-center gap-2">
-              <button onClick={() => setShowCode(true)} className="p-2 md:p-3 bg-slate-900 text-white rounded-full hover:scale-110 transition-all shadow-lg group">
+              <button onClick={() => setShowCode(true)} className="p-2 md:p-3 bg-slate-900 text-white rounded-full hover:scale-110 transition-all shadow-lg group shrink-0">
                 <Code size={14} className="md:w-[18px] md:h-[18px] group-hover:text-yellow-400" />
               </button>
               <div className="px-3 py-1.5 md:px-6 md:py-3 bg-white rounded-full shadow-sm border border-slate-50 flex gap-4 md:gap-6">
@@ -235,12 +240,12 @@ const OpenHumanApp: FC = () => {
             <a 
               href="https://tinyhumans.ai/openhuman" 
               target="_blank" 
-              className="flex items-center gap-2 px-6 py-2 bg-yellow-400 text-slate-900 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-yellow-500 transition-all shadow-md active:scale-95 border border-yellow-300"
+              className="flex items-center gap-2 px-5 py-2 bg-yellow-400 text-slate-900 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-widest hover:bg-yellow-500 transition-all shadow-md active:scale-95 border border-yellow-300"
             >
-               <Download size={12} />
+               <Download size={10} />
                Download Full Version
             </a>
-            <p className="text-[7px] font-bold text-slate-300 uppercase tracking-widest -mt-2">This is a Web Demo</p>
+            <p className="text-[6px] md:text-[7px] font-bold text-slate-300 uppercase tracking-widest -mt-1">This is a Web Demo</p>
           </div>
         </div>
 
