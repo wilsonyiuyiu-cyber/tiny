@@ -8,6 +8,8 @@ import TextTicker from "@/components/TextTicker";
 import Features from "@/components/Features";
 import StarGrowthChart from "@/components/StarGrowthChart";
 import Contributors from "@/components/Contributors";
+import ChatPanel from "@/components/ChatPanel";
+import OpenHumanApp from "@/components/OpenHumanApp";
 import { Sparkles, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
@@ -20,15 +22,11 @@ export default function Home() {
       <main className="flex-grow pt-24 md:pt-32 pb-24 px-4 md:px-8 max-w-[1400px] mx-auto w-full box-border">
         <div className="grid lg:grid-cols-12 gap-6 md:gap-12 items-start">
           
-          {/* Left Column: Mascot & Market (4/12) */}
+          {/* Left Column: Market & Community (4/12) */}
           <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8 lg:sticky lg:top-24 w-full max-w-full overflow-hidden">
             <div className="bg-white p-5 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] flex flex-col items-center text-center relative overflow-hidden w-full box-border">
                <div className="absolute top-0 left-0 w-full h-1 bg-yellow-400"></div>
                
-               <div className="scale-75 md:scale-100">
-                 <TinyHuman />
-               </div>
-
                <motion.h1 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -49,11 +47,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Column: GitHub & Memes (8/12) */}
+          {/* Right Column: OpenHuman App & Stats (8/12) */}
           <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8 w-full max-w-full overflow-hidden">
-            <div className="w-full max-w-full overflow-hidden">
-              <StarGrowthChart />
-            </div>
+            <OpenHumanApp />
+            <StarGrowthChart />
             
             <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] overflow-hidden w-full">
                <div className="p-6 md:p-10 border-b border-slate-50 flex items-center justify-between">
