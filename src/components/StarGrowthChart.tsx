@@ -140,17 +140,17 @@ export default function StarGrowthChart() {
         <div className="flex flex-col gap-1">
           <span className="text-[9px] font-black text-slate-300 uppercase tracking-[0.4em]">GitHub Momentum</span>
           <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight italic uppercase">
-            GitHub Star Comparison
+            GitHub Daily Star Growth
           </h3>
         </div>
         <div className="flex flex-col items-end text-right">
           <div className="mb-3">
-            <span className="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em] mb-1 block">Total Stars</span>
+            <span className="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em] mb-1 block">Live Total</span>
             <span className="text-lg md:text-xl font-black text-slate-900 italic font-mono leading-none">
               {lastTinyPoint.star_count.toLocaleString()}
             </span>
           </div>
-          <span className="text-[9px] font-black text-green-500 uppercase tracking-[0.3em] mb-1">Stars Today</span>
+          <span className="text-[9px] font-black text-green-500 uppercase tracking-[0.3em] mb-1">Growth Today</span>
           <div className="flex items-center gap-2">
              <span className="text-xs md:text-sm font-black text-slate-900 italic font-mono">
                +{lastTinyPoint.growth.toLocaleString()}
