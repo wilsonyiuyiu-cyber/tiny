@@ -1,0 +1,26 @@
+[
+  {
+    "starred_at": "2026-03-16T13:18:00Z",
+    "user": {
+      "login": "cautiousselin",
+      "id": 157137960,
+      "node_id": "U_kgDOCV28KA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/157137960?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/cautiousselin",
+      "html_url": "https://github.com/cautiousselin",
+      "followers_url": "https://api.github.com/users/cautiousselin/followers",
+      "following_url": "https://api.github.com/users/cautiousselin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/cautiousselin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/cautiousselin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/cautiousselin/subscriptions",
+      "organizations_url": "https://api.github.com/users/cautiousselin/orgs",
+      "repos_url": "https://api.github.com/users/cautiousselin/repos",
+      "events_url": "https://api.github.com/users/cautiousselin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/cautiousselin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  }
+]

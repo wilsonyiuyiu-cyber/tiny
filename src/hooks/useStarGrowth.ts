@@ -10,10 +10,11 @@ export interface StarRecord {
   recorded_at: string;
   star_count: number;
   growth: number;
+  repo_name: string;
 }
 
 export function useStarGrowth() {
-  const [data, setData] = useState<StarRecord[]>([]);
+  const [data, setData] = useState<Record<string, StarRecord[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,22 +23,32 @@ export function useStarGrowth() {
       try {
         const { data: rawData, error: supabaseError } = await supabase
           .from('github_stars')
-          .select('recorded_at, star_count')
+          .select('recorded_at, star_count, repo_name')
           .order('recorded_at', { ascending: true });
 
         if (supabaseError) throw supabaseError;
 
         if (rawData) {
-          // 計算每日增幅
-          const processedData = rawData.map((entry, index) => {
-            const prevCount = index > 0 ? rawData[index - 1].star_count : entry.star_count;
-            return {
+          // 按專案分組並計算增幅
+          const grouped: Record<string, StarRecord[]> = {};
+          
+          rawData.forEach((entry) => {
+            if (!grouped[entry.repo_name]) {
+              grouped[entry.repo_name] = [];
+            }
+            
+            const repoData = grouped[entry.repo_name];
+            const prevCount = repoData.length > 0 ? repoData[repoData.length - 1].star_count : entry.star_count;
+            
+            repoData.push({
               recorded_at: entry.recorded_at,
               star_count: entry.star_count,
-              growth: entry.star_count - prevCount
-            };
+              growth: entry.star_count - prevCount,
+              repo_name: entry.repo_name
+            });
           });
-          setData(processedData);
+          
+          setData(grouped);
         }
       } catch (err: any) {
         setError(err.message);
