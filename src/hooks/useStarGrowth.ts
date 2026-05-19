@@ -58,6 +58,8 @@ export function useStarGrowth() {
     }
 
     fetchStars();
+    const interval = setInterval(fetchStars, 10 * 60 * 1000); // 每 10 分鐘更新一次
+    return () => clearInterval(interval);
   }, []);
 
   return { data, loading, error };
