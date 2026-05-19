@@ -8,7 +8,7 @@ import {
   CheckCircle2, Code, Cpu, MessageSquare, 
   X, Copy, Check, Globe, Layers, Zap, Star,
   Mail, MessageCircle, Share2, Terminal, Database, Video,
-  HardDrive, Users, CreditCard, ClipboardList
+  HardDrive, Users, CreditCard, ClipboardList, Download, Info
 } from 'lucide-react';
 import { useStarGrowth } from '@/hooks/useStarGrowth';
 import { useTokenData } from '@/hooks/useTokenData';
@@ -147,6 +147,11 @@ const OpenHumanApp: FC = () => {
         {/* Left Side: Mascot Area */}
         <div className="md:w-1/2 bg-white flex flex-col items-center justify-center p-6 md:p-12 relative border-b md:border-b-0 md:border-r border-slate-50 min-h-[220px] md:min-h-0 shrink-0 overflow-hidden">
           
+          {/* Demo Mode Badge */}
+          <div className="absolute top-24 left-0 w-full flex justify-center pointer-events-none z-10 opacity-30 select-none">
+            <span className="text-4xl md:text-6xl font-black text-slate-100 uppercase tracking-[0.5em] rotate-[-15deg]">Demo Only</span>
+          </div>
+
           {/* 118+ Integrations Background Animation */}
           <div className="absolute inset-0 pointer-events-none opacity-[0.08]">
              {[...Array(15)].map((_, i) => (
@@ -197,7 +202,7 @@ const OpenHumanApp: FC = () => {
             className="relative w-32 h-32 md:w-80 md:h-80 mt-4 md:mt-0"
           >
              <Image 
-               src="/memes/photo_2026-05-16_08-05-35.jpg" 
+               src="/tiny-app.png" 
                alt="OpenHuman Mascot" 
                fill 
                className="object-contain drop-shadow-2xl"
@@ -212,17 +217,30 @@ const OpenHumanApp: FC = () => {
              </div>
           </div>
           
-          <div className="absolute bottom-4 md:bottom-12 flex items-center gap-2 z-10">
-            <button onClick={() => setShowCode(true)} className="p-2 md:p-3 bg-slate-900 text-white rounded-full hover:scale-110 transition-all shadow-lg group">
-              <Code size={14} className="md:w-[18px] md:h-[18px] group-hover:text-yellow-400" />
-            </button>
-            <div className="px-3 py-1.5 md:px-6 md:py-3 bg-white rounded-full shadow-sm border border-slate-50 flex gap-4 md:gap-6">
-               <Home size={14} className="md:w-[18px] md:h-[18px] text-slate-300 hover:text-slate-900 cursor-pointer transition-colors" />
-               <User size={14} className="md:w-[18px] md:h-[18px] text-slate-900 cursor-pointer" />
-               <div className="w-1.5 h-1.5 rounded-full bg-slate-100 self-center"></div>
-               <Layers size={14} className={`${showCatalog ? 'text-slate-900' : 'text-slate-300'} hover:text-slate-900 cursor-pointer transition-colors`} onClick={() => setShowCatalog(!showCatalog)} />
-               <Settings size={14} className="text-slate-300 hover:text-slate-900 cursor-pointer transition-colors" />
+          <div className="absolute bottom-4 md:bottom-12 flex flex-col items-center gap-4 z-10 w-full">
+            <div className="flex items-center gap-2">
+              <button onClick={() => setShowCode(true)} className="p-2 md:p-3 bg-slate-900 text-white rounded-full hover:scale-110 transition-all shadow-lg group">
+                <Code size={14} className="md:w-[18px] md:h-[18px] group-hover:text-yellow-400" />
+              </button>
+              <div className="px-3 py-1.5 md:px-6 md:py-3 bg-white rounded-full shadow-sm border border-slate-50 flex gap-4 md:gap-6">
+                 <Home size={14} className="md:w-[18px] md:h-[18px] text-slate-300 hover:text-slate-900 cursor-pointer transition-colors" />
+                 <User size={14} className="md:w-[18px] md:h-[18px] text-slate-900 cursor-pointer" />
+                 <div className="w-1.5 h-1.5 rounded-full bg-slate-100 self-center"></div>
+                 <Layers size={14} className={`${showCatalog ? 'text-slate-900' : 'text-slate-300'} hover:text-slate-900 cursor-pointer transition-colors`} onClick={() => setShowCatalog(!showCatalog)} />
+                 <Settings size={14} className="text-slate-300 hover:text-slate-900 cursor-pointer transition-colors" />
+              </div>
             </div>
+            
+            {/* Download Official App Link */}
+            <a 
+              href="https://tinyhumans.ai/openhuman" 
+              target="_blank" 
+              className="flex items-center gap-2 px-6 py-2 bg-yellow-400 text-slate-900 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-yellow-500 transition-all shadow-md active:scale-95 border border-yellow-300"
+            >
+               <Download size={12} />
+               Download Full Version
+            </a>
+            <p className="text-[7px] font-bold text-slate-300 uppercase tracking-widest -mt-2">This is a Web Demo</p>
           </div>
         </div>
 
