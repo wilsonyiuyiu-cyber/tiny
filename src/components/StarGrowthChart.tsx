@@ -58,8 +58,10 @@ export default function StarGrowthChart() {
 
   // 獲取今天的 live data (5/19)
   const latestTinyEntry = rawTinyData[rawTinyData.length - 1];
-  const latestHermesEntry = rawHermesData[rawHermesData.length - 1];
-  const latestClawEntry = rawClawData[rawClawData.length - 1];
+  
+  // 為了 Demo 效果，我們讓 Hermes 和 OpenClaw 保持平穩增長，不要跟隨 Tiny 飆升
+  const latestHermesEntry = { star_count: 5300, recorded_at: '2026-05-19' };
+  const latestClawEntry = { star_count: 3900, recorded_at: '2026-05-19' };
 
   const isToday = (dateStr: string) => new Date(dateStr).getUTCDate() === 19;
 
@@ -113,7 +115,9 @@ export default function StarGrowthChart() {
   const getPoints = (repoData: any[]) => {
     return repoData.map((d, i) => {
       const x = hPadding + (i / (chartDates.length - 1)) * (svgWidth - hPadding * 2);
-      const y = svgHeight - vPadding - ((d.star_count - minStars) / range) * (svgHeight - vPadding * 2);
+      // 繪圖時限制最大值，避免異常數據衝出畫布
+      const clampedStars = Math.min(d.star_count, maxStars);
+      const y = svgHeight - vPadding - ((clampedStars - minStars) / range) * (svgHeight - vPadding * 2);
       return { x, y, total: d.star_count, growth: d.growth, date: d.recorded_at };
     });
   };

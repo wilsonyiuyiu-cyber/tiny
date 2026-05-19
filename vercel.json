@@ -1,3 +1,9 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/cron/import-history?key=SIUQWEHB210938142",
+      "schedule": "*/10 * * * *"
+    }
+  ]
 }
