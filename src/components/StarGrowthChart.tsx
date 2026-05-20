@@ -22,6 +22,8 @@ export default function StarGrowthChart() {
     </div>
   );
   
+
+
   if (error) return (
     <div className="p-10 text-slate-400 text-center bg-white rounded-[2.5rem] border border-slate-100 min-h-[420px] flex items-center justify-center italic text-xs font-medium">
       Unable to sync growth data

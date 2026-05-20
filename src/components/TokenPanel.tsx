@@ -4,8 +4,7 @@ import { FC } from 'react';
 import { ExternalLink, TrendingUp, BarChart3, Loader2, ArrowUpRight } from 'lucide-react';
 import { useTokenData } from '@/hooks/useTokenData';
 import { motion } from 'framer-motion';
-
-const TOKEN_ADDRESS = '2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump';
+import { TOKEN_ADDRESS, PUMP_FUN_URL } from '@/constants';
 
 const TokenPanel: FC = () => {
   const { priceUsd, fdv, volume24h, priceChange24h, symbol, loading } = useTokenData();
@@ -26,7 +25,7 @@ const TokenPanel: FC = () => {
           </h3>
         </div>
         <a 
-          href={`https://pump.fun/coin/${TOKEN_ADDRESS}`}
+          href={PUMP_FUN_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="p-3 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-900 hover:text-white transition-all shadow-sm group"

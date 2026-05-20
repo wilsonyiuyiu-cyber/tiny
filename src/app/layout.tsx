@@ -15,6 +15,36 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Tiny Humans | The Future of Digital Identity",
   description: "Interact, manage, and explore the world of Tiny Humans. Powered by Solana and OpenHuman.",
+  keywords: ["Tiny Humans", "Solana", "NFT", "Crypto", "Digital Identity", "OpenHuman"],
+  authors: [{ name: "Tiny Project Labs" }],
+  openGraph: {
+    title: "Tiny Humans | The Future of Digital Identity",
+    description: "Interact, manage, and explore the world of Tiny Humans. Powered by Solana and OpenHuman.",
+    url: "https://tinyhumans.xyz",
+    siteName: "Tiny Humans",
+    images: [
+      {
+        url: "/tiny-app.png",
+        width: 1200,
+        height: 630,
+        alt: "Tiny Humans Preview",
+      },
+    ],
+    locale: "zh_TW",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tiny Humans | The Future of Digital Identity",
+    description: "Interact, manage, and explore the world of Tiny Humans. Powered by Solana and OpenHuman.",
+    images: ["/tiny-app.png"],
+    creator: "@TinyHumanAi",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

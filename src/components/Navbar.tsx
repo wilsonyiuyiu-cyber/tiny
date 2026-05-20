@@ -3,6 +3,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { GITHUB_URL, TELEGRAM_URL, TWITTER_URL, PUMP_FUN_URL } from '@/constants';
 
 const Navbar: FC = () => {
   return (
@@ -21,19 +22,19 @@ const Navbar: FC = () => {
         </Link>
 
         <div className="hidden sm:flex items-center gap-8">
-          <Link href="https://github.com/tinyhumansai/OpenHuman" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
+          <Link href={GITHUB_URL} target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
             GitHub
           </Link>
-          <Link href="https://t.me/TinyHumanAi" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
+          <Link href={TELEGRAM_URL} target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
             Telegram
           </Link>
-          <Link href="https://x.com/i/communities/1967670599784013865" target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
+          <Link href={TWITTER_URL} target="_blank" className="text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest">
             Community
           </Link>
         </div>
 
         <Link 
-          href="https://pump.fun/coin/2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump"
+          href={PUMP_FUN_URL}
           target="_blank"
           className="px-5 py-2 bg-slate-900 text-white rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-sm"
         >

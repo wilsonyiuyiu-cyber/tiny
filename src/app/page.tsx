@@ -1,18 +1,20 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Navbar from "@/components/Navbar";
 import TokenPanel from "@/components/TokenPanel";
-import TinyHuman from "@/components/TinyHuman";
-import MemeGrid from "@/components/MemeGrid";
-import TextTicker from "@/components/TextTicker";
-import Features from "@/components/Features";
-import StarGrowthChart from "@/components/StarGrowthChart";
-import Contributors from "@/components/Contributors";
-import ChatPanel from "@/components/ChatPanel";
-import OpenHumanApp from "@/components/OpenHumanApp";
 import { Sparkles, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
+import { PUMP_FUN_URL, TELEGRAM_URL, TWITTER_URL, GITHUB_URL } from "@/constants";
+
+// Dynamic imports for components below the fold
+const MemeGrid = dynamic(() => import("@/components/MemeGrid"), { ssr: false });
+const Features = dynamic(() => import("@/components/Features"), { ssr: false });
+const StarGrowthChart = dynamic(() => import("@/components/StarGrowthChart"), { ssr: false });
+const Contributors = dynamic(() => import("@/components/Contributors"), { ssr: false });
+const OpenHumanApp = dynamic(() => import("@/components/OpenHumanApp"), { ssr: false });
+const TextTicker = dynamic(() => import("@/components/TextTicker"), { ssr: false });
 
 export default function Home() {
   return (
@@ -37,7 +39,7 @@ export default function Home() {
                 <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Solana Community</p>
                 
                 <div className="mt-8 flex flex-col gap-3 w-full">
-                   <a href="https://pump.fun/coin/2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump" target="_blank" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-sm active:scale-95">Get $TINY</a>
+                   <a href={PUMP_FUN_URL} target="_blank" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-sm active:scale-95">Get $TINY</a>
                    <Contributors />
                 </div>
             </div>
@@ -58,7 +60,7 @@ export default function Home() {
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em]">The Archive</span>
                     <h3 className="text-lg md:text-2xl font-black text-slate-900 tracking-tight italic uppercase leading-none">Meme Wall</h3>
                   </div>
-                  <a href="https://t.me/TinyHumanAi" target="_blank" className="p-2 md:p-3 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-900 hover:text-white transition-all shadow-sm group">
+                  <a href={TELEGRAM_URL} target="_blank" className="p-2 md:p-3 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-900 hover:text-white transition-all shadow-sm group">
                     <Star size={14} className="md:w-4 md:h-4 group-hover:rotate-12 transition-transform" />
                   </a>
                </div>
@@ -86,9 +88,9 @@ export default function Home() {
             <p className="text-slate-900 font-black tracking-tighter italic text-xs uppercase leading-none">TINY HUMANS</p>
           </div>
           <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-[9px] font-black uppercase tracking-[0.3em] text-slate-300">
-            <a href="https://x.com/i/communities/1967670599784013865" target="_blank" className="hover:text-slate-900 transition-colors">X (Twitter)</a>
-            <a href="https://t.me/TinyHumanAi" target="_blank" className="hover:text-slate-900 transition-colors">Telegram</a>
-            <a href="https://github.com/tinyhumansai/OpenHuman" target="_blank" className="hover:text-slate-900 transition-colors">GitHub</a>
+            <a href={TWITTER_URL} target="_blank" className="hover:text-slate-900 transition-colors">X (Twitter)</a>
+            <a href={TELEGRAM_URL} target="_blank" className="hover:text-slate-900 transition-colors">Telegram</a>
+            <a href={GITHUB_URL} target="_blank" className="hover:text-slate-900 transition-colors">GitHub</a>
           </div>
           <p className="text-slate-200 text-[8px] font-medium tracking-[0.4em]">© 2026 TINY PROJECT LABS</p>
         </div>
