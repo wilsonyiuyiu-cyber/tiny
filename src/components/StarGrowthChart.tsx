@@ -80,7 +80,7 @@ export default function StarGrowthChart() {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.015)] flex flex-col h-full relative overflow-hidden"
+      className="bg-[#F8F9FA] p-8 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.015)] flex flex-col h-full relative overflow-hidden"
     >
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }}></div>
 
@@ -166,7 +166,7 @@ export default function StarGrowthChart() {
                     {points.map((p, i) => (
                       <g key={i}>
                         <motion.circle
-                          cx={p.x} cy={p.y} r="4" fill="white" stroke={proj.color} strokeWidth="3"
+                          cx={p.x} cy={p.y} r="4" fill="#F8F9FA" stroke={proj.color} strokeWidth="3"
                           initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 + i * 0.1 }}
                         />
                         <text x={p.x} y={svgHeight - 25} textAnchor="middle" className="fill-slate-300 text-[11px] font-bold uppercase">
