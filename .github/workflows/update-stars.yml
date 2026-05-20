@@ -1,4 +1,4 @@
-name: Update GitHub Stars
+name: Daily Cron Tasks
 
 on:
   schedule:
@@ -6,9 +6,13 @@ on:
   workflow_dispatch: # 允許手動觸發
 
 jobs:
-  update-stars:
+  cron:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Sync API
+      - name: Sync Stars
         run: |
           curl "https://www.tinyhumansai.online/api/cron/sync-stars?key=SIUQWEHB210938142"
+      
+      - name: Import History
+        run: |
+          curl "https://www.tinyhumansai.online/api/cron/import-history?key=SIUQWEHB210938142"
