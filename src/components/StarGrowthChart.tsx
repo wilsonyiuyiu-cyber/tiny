@@ -3,9 +3,18 @@
 import { useStarGrowth } from '@/hooks/useStarGrowth';
 import { motion } from 'framer-motion';
 import { Star, ArrowUpRight } from 'lucide-react';
+import { useRef, useEffect } from 'react';
 
 export default function StarGrowthChart() {
   const { data: groupedData, loading, error } = useStarGrowth();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // 自動捲動到最右側 (顯示最新日期)
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
+    }
+  }, [groupedData]);
 
   if (loading) return (
     <div className="p-10 text-center flex flex-col items-center justify-center gap-4 bg-white rounded-[2.5rem] border border-slate-100 min-h-[420px]">
@@ -19,122 +28,38 @@ export default function StarGrowthChart() {
     </div>
   );
   
-  const rawTinyData = groupedData["tinyhumansai/OpenHuman"] || [];
-  const rawHermesData = groupedData["NousResearch/hermes-agent"] || [];
-  const rawClawData = groupedData["openclaw/openclaw"] || [];
+  const tinyData = groupedData["tinyhumansai/OpenHuman"] || [];
   
-  if (rawTinyData.length === 0) return null;
-
-  // 硬編碼數據序列 (更新至 5/19)
-  const tinyHistory = [
-    { recorded_at: '2026-05-12', star_count: 3500 },
-    { recorded_at: '2026-05-13', star_count: 5300 },
-    { recorded_at: '2026-05-14', star_count: 7100 },
-    { recorded_at: '2026-05-15', star_count: 8900 },
-    { recorded_at: '2026-05-16', star_count: 10600 },
-    { recorded_at: '2026-05-17', star_count: 12400 },
-    { recorded_at: '2026-05-18', star_count: 16100 },
-    { recorded_at: '2026-05-19', star_count: 20258 },
-  ];
-
-  const hermesHistory = [
-    { recorded_at: '2026-05-12', star_count: 1200 },
-    { recorded_at: '2026-05-13', star_count: 1500 },
-    { recorded_at: '2026-05-14', star_count: 2000 },
-    { recorded_at: '2026-05-15', star_count: 2800 },
-    { recorded_at: '2026-05-16', star_count: 3500 },
-    { recorded_at: '2026-05-17', star_count: 4200 },
-    { recorded_at: '2026-05-18', star_count: 5000 },
-    { recorded_at: '2026-05-19', star_count: 5300 },
-  ];
-
-  const clawHistory = [
-    { recorded_at: '2026-05-12', star_count: 500 },
-    { recorded_at: '2026-05-13', star_count: 700 },
-    { recorded_at: '2026-05-14', star_count: 1000 },
-    { recorded_at: '2026-05-15', star_count: 1500 },
-    { recorded_at: '2026-05-16', star_count: 2100 },
-    { recorded_at: '2026-05-17', star_count: 2800 },
-    { recorded_at: '2026-05-18', star_count: 3500 },
-    { recorded_at: '2026-05-19', star_count: 3900 },
-  ];
-
-  // 動態合併所有後續日期 (不再硬編碼 19 號)
-  const getCombinedData = (history: any[], rawLive: any[]) => {
-    const lastHistoryDate = history[history.length - 1].recorded_at;
-    const futureData = rawLive.filter(d => d.recorded_at > lastHistoryDate);
-    
-    // 按日期去重並合併
-    const combined = [...history];
-    const seenDates = new Set(history.map(h => h.recorded_at));
-    
-    futureData.forEach(d => {
-      const dateOnly = new Date(d.recorded_at).toISOString().split('T')[0];
-      if (!seenDates.has(dateOnly)) {
-        combined.push({ ...d, recorded_at: dateOnly });
-        seenDates.add(dateOnly);
-      }
-    });
-    
-    return combined;
-  };
-
-  const tinyData = getCombinedData(tinyHistory, rawTinyData)
-    .map((d, i, arr) => ({ ...d, growth: i === 0 ? 1800 : d.star_count - arr[i-1].star_count }));
-
-  const hermesData = getCombinedData(hermesHistory, rawHermesData)
-    .map((d, i, arr) => ({ 
-       ...d, 
-       // 如果 live 數據異常（例如跟 Tiny 一樣），則人為壓低它以保持對比
-       star_count: d.star_count > 10000 ? 5300 + (i - 7) * 200 : d.star_count,
-       growth: i === 0 ? 300 : d.star_count - arr[i-1].star_count 
-    }));
-
-  const clawData = getCombinedData(clawHistory, rawClawData)
-    .map((d, i, arr) => ({ 
-       ...d, 
-       star_count: d.star_count > 10000 ? 3900 + (i - 7) * 150 : d.star_count,
-       growth: i === 0 ? 200 : d.star_count - arr[i-1].star_count 
-    }));
+  if (tinyData.length === 0) return null;
 
   const lastTinyPoint = tinyData[tinyData.length - 1];
   const chartDates = tinyData.map(d => d.recorded_at);
 
-  // 構建多專案數據
   const projects = [
-    { 
-      name: 'Tiny (OpenHuman)', 
-      color: '#1D1D1F', 
-      data: tinyData
-    },
-    { 
-      name: 'Hermes', 
-      color: '#CBD5E1', 
-      data: hermesData
-    },
-    { 
-      name: 'OpenClaw', 
-      color: '#94A3B8', 
-      data: clawData
-    },
+    { name: 'TINY (OPENHUMAN)', color: '#1D1D1F', data: tinyData },
   ];
 
-  const svgWidth = 400;
-  const svgHeight = 180;
-  const hPadding = 30;
-  const vPadding = 40;  
+  // 每一個點佔據 140px 寬度，填滿最近 7 天的顯示空間
+  const pointWidth = 140;
+  const hPadding = 40;
+  const svgWidth = Math.max(900, (chartDates.length - 1) * pointWidth + hPadding * 2);
+  const svgHeight = 280;
+  const vPadding = 60;  
   
   const allCounts = projects.flatMap(p => p.data.map(d => d.star_count));
-  const minStars = Math.min(...allCounts, 0);
-  const maxStars = Math.max(...allCounts, 1);
+  const minStars = Math.min(...allCounts);
+  const maxStars = Math.max(...allCounts);
   const range = maxStars - minStars || 1;
 
   const getPoints = (repoData: any[]) => {
-    return repoData.map((d, i) => {
-      const x = hPadding + (i / (chartDates.length - 1)) * (svgWidth - hPadding * 2);
-      // 繪圖時限制最大值，避免異常數據衝出畫布
-      const clampedStars = Math.min(d.star_count, maxStars);
-      const y = svgHeight - vPadding - ((clampedStars - minStars) / range) * (svgHeight - vPadding * 2);
+    return repoData.map((d) => {
+      const dateIndex = chartDates.indexOf(d.recorded_at);
+      const x = hPadding + dateIndex * pointWidth;
+      const displayStars = d.star_count;
+      // 如果 range 為 0，則所有 y 都在中間
+      const y = range === 0 
+        ? svgHeight / 2 
+        : svgHeight - vPadding - ((displayStars - minStars) / range) * (svgHeight - vPadding * 2);
       return { x, y, total: d.star_count, growth: d.growth, date: d.recorded_at };
     });
   };
@@ -144,8 +69,10 @@ export default function StarGrowthChart() {
     return num.toString();
   };
 
+  const totalStarCount = lastTinyPoint.star_count;
+  const totalGrowthToday = lastTinyPoint.growth;
+
   const formatGrowth = (num: number) => {
-    if (num <= 0) return '';
     return `+${num.toLocaleString()}`;
   };
 
@@ -168,20 +95,19 @@ export default function StarGrowthChart() {
           <div className="mb-3">
             <span className="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em] mb-1 block">Live Total</span>
             <span className="text-lg md:text-xl font-black text-slate-900 italic font-mono leading-none">
-              {lastTinyPoint.star_count.toLocaleString()}
+              {totalStarCount.toLocaleString()}
             </span>
           </div>
           <span className="text-[9px] font-black text-green-500 uppercase tracking-[0.3em] mb-1">Growth Today</span>
           <div className="flex items-center gap-2">
              <span className="text-xs md:text-sm font-black text-slate-900 italic font-mono">
-               +{lastTinyPoint.growth.toLocaleString()}
+               +{totalGrowthToday.toLocaleString()}
              </span>
              <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
           </div>
         </div>
       </div>
 
-      {/* Legend */}
       <div className="flex gap-4 mb-8 relative z-10">
         {projects.map(p => (
           <div key={p.name} className="flex items-center gap-2">
@@ -191,79 +117,82 @@ export default function StarGrowthChart() {
         ))}
       </div>
 
-      <div className="flex-grow flex items-center justify-center relative z-10">
-        <div className="w-full aspect-[2/1] min-h-[240px]">
-          <svg viewBox={`0 0 ${svgWidth} ${svgHeight + 20}`} className="w-full h-full overflow-visible">
-            <defs>
-              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#1D1D1F" stopOpacity="0.04" />
-                <stop offset="100%" stopColor="#1D1D1F" stopOpacity="0" />
-              </linearGradient>
-            </defs>
+      <div className="flex-grow relative z-10 overflow-hidden">
+        <div 
+          ref={scrollContainerRef}
+          className="w-full overflow-x-auto pb-4 scrollbar-hide"
+        >
+          <div style={{ width: svgWidth }}>
+            <svg viewBox={`0 0 ${svgWidth} ${svgHeight + 20}`} className="w-full h-full overflow-visible">
+              <defs>
+                <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#1D1D1F" stopOpacity="0.04" />
+                  <stop offset="100%" stopColor="#1D1D1F" stopOpacity="0" />
+                </linearGradient>
+              </defs>
 
-            {[0.2, 0.5, 0.8].map((p) => (
-              <line key={p} x1={hPadding} y1={svgHeight * p} x2={svgWidth - hPadding} y2={svgHeight * p} stroke="#F1F5F9" strokeWidth="1" strokeDasharray="4 4" />
-            ))}
+              {[0.2, 0.5, 0.8].map((p) => (
+                <line key={p} x1={0} y1={svgHeight * p} x2={svgWidth} y2={svgHeight * p} stroke="#F1F5F9" strokeWidth="1" strokeDasharray="4 4" />
+              ))}
 
-            {projects.map((proj, pIndex) => {
-              if (proj.data.length < 2) return null;
-              const points = getPoints(proj.data);
-              const pathData = `M ${points.map(p => `${p.x},${p.y}`).join(' L ')}`;
-              const isTiny = proj.name.includes('Tiny');
+              {projects.map((proj, pIndex) => {
+                const points = getPoints(proj.data);
+                if (points.length < 2) return null;
+                const pathData = `M ${points.map(p => `${p.x},${p.y}`).join(' L ')}`;
+                const isTiny = proj.name.includes('Tiny');
 
-              return (
-                <g key={proj.name}>
-                  {isTiny && (
-                    <motion.path
-                      d={`${pathData} L ${points[points.length-1].x},${svgHeight - vPadding} L ${points[0].x},${svgHeight - vPadding} Z`}
-                      fill="url(#areaGradient)"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                    />
-                  )}
-                  <motion.path
-                    d={pathData}
-                    fill="none"
-                    stroke={proj.color}
-                    strokeWidth={isTiny ? 3 : 1.5}
-                    strokeDasharray={isTiny ? "0" : "4 2"}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, ease: "easeInOut", delay: pIndex * 0.2 }}
-                  />
-                  {isTiny && points.map((p, i) => (
-                    <g key={i}>
-                      <motion.circle
-                        cx={p.x} cy={p.y} r="3" fill="white" stroke={proj.color} strokeWidth="2"
-                        initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 + i * 0.1 }}
+                return (
+                  <g key={proj.name}>
+                    {isTiny && (
+                      <motion.path
+                        d={`${pathData} L ${points[points.length-1].x},${svgHeight - vPadding} L ${points[0].x},${svgHeight - vPadding} Z`}
+                        fill="url(#areaGradient)"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                       />
-                      <text x={p.x} y={svgHeight - 5} textAnchor="middle" className="fill-slate-300 text-[8px] font-bold uppercase">
-                        {new Date(p.date).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })}
-                      </text>
-                      
-                      {/* 總星數 (Total) */}
-                      <motion.text
-                        x={p.x} y={svgHeight + 8} textAnchor="middle" className="fill-slate-900 text-[9px] font-black italic font-mono"
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 + i * 0.1 }}
-                      >
-                        {formatValue(p.total)}
-                      </motion.text>
+                    )}
+                    <motion.path
+                      d={pathData}
+                      fill="none"
+                      stroke={proj.color}
+                      strokeWidth={isTiny ? 3 : 1.5}
+                      strokeDasharray={isTiny ? "0" : "4 2"}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 2, ease: "easeInOut", delay: pIndex * 0.2 }}
+                    />
+                    {points.map((p, i) => (
+                      <g key={i}>
+                        <motion.circle
+                          cx={p.x} cy={p.y} r="4" fill="white" stroke={proj.color} strokeWidth="3"
+                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 + i * 0.1 }}
+                        />
+                        <text x={p.x} y={svgHeight - 25} textAnchor="middle" className="fill-slate-300 text-[11px] font-bold uppercase">
+                          {new Date(p.date).getMonth() + 1}/{new Date(p.date).getDate()}
+                        </text>
+                        
+                        <motion.text
+                          x={p.x} y={svgHeight - 5} textAnchor="middle" className="fill-slate-900 text-[13px] font-black italic font-mono"
+                          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 + i * 0.1 }}
+                        >
+                          {formatValue(p.total)}
+                        </motion.text>
 
-                      {/* 每日新增 (Growth) - 新增這一行 */}
-                      <motion.text
-                        x={p.x} y={svgHeight + 20} textAnchor="middle" className="fill-green-500 text-[7px] font-black italic font-mono"
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 + i * 0.1 }}
-                      >
-                        {formatGrowth(p.growth)}
-                      </motion.text>
-                    </g>
-                  ))}
-                </g>
-              );
-            })}
-          </svg>
+                        <motion.text
+                          x={p.x} y={svgHeight + 15} textAnchor="middle" className="fill-green-500 text-[11px] font-black italic font-mono"
+                          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 + i * 0.1 }}
+                        >
+                          {formatGrowth(p.growth)}
+                        </motion.text>
+                      </g>
+                    ))}
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
         </div>
       </div>
       
