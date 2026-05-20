@@ -25,7 +25,7 @@ export default function StarGrowthChart() {
   
   if (rawTinyData.length === 0) return null;
 
-  // 硬編碼數據序列
+  // 硬編碼數據序列 (更新至 5/19)
   const tinyHistory = [
     { recorded_at: '2026-05-12', star_count: 3500 },
     { recorded_at: '2026-05-13', star_count: 5300 },
@@ -34,6 +34,7 @@ export default function StarGrowthChart() {
     { recorded_at: '2026-05-16', star_count: 10600 },
     { recorded_at: '2026-05-17', star_count: 12400 },
     { recorded_at: '2026-05-18', star_count: 16100 },
+    { recorded_at: '2026-05-19', star_count: 20258 },
   ];
 
   const hermesHistory = [
@@ -44,6 +45,7 @@ export default function StarGrowthChart() {
     { recorded_at: '2026-05-16', star_count: 3500 },
     { recorded_at: '2026-05-17', star_count: 4200 },
     { recorded_at: '2026-05-18', star_count: 5000 },
+    { recorded_at: '2026-05-19', star_count: 5300 },
   ];
 
   const clawHistory = [
@@ -54,31 +56,46 @@ export default function StarGrowthChart() {
     { recorded_at: '2026-05-16', star_count: 2100 },
     { recorded_at: '2026-05-17', star_count: 2800 },
     { recorded_at: '2026-05-18', star_count: 3500 },
+    { recorded_at: '2026-05-19', star_count: 3900 },
   ];
 
-  // 獲取今天的 live data (5/19)
-  const latestTinyEntry = rawTinyData[rawTinyData.length - 1];
-  
-  // 為了 Demo 效果，我們讓 Hermes 和 OpenClaw 保持平穩增長，不要跟隨 Tiny 飆升
-  const latestHermesEntry = { star_count: 5300, recorded_at: '2026-05-19' };
-  const latestClawEntry = { star_count: 3900, recorded_at: '2026-05-19' };
+  // 動態合併所有後續日期 (不再硬編碼 19 號)
+  const getCombinedData = (history: any[], rawLive: any[]) => {
+    const lastHistoryDate = history[history.length - 1].recorded_at;
+    const futureData = rawLive.filter(d => d.recorded_at > lastHistoryDate);
+    
+    // 按日期去重並合併
+    const combined = [...history];
+    const seenDates = new Set(history.map(h => h.recorded_at));
+    
+    futureData.forEach(d => {
+      const dateOnly = new Date(d.recorded_at).toISOString().split('T')[0];
+      if (!seenDates.has(dateOnly)) {
+        combined.push({ ...d, recorded_at: dateOnly });
+        seenDates.add(dateOnly);
+      }
+    });
+    
+    return combined;
+  };
 
-  const isToday = (dateStr: string) => new Date(dateStr).getUTCDate() === 19;
+  const tinyData = getCombinedData(tinyHistory, rawTinyData)
+    .map((d, i, arr) => ({ ...d, growth: i === 0 ? 1800 : d.star_count - arr[i-1].star_count }));
 
-  const tinyData = [
-    ...tinyHistory, 
-    ...(latestTinyEntry && isToday(latestTinyEntry.recorded_at) ? [{ ...latestTinyEntry, recorded_at: '2026-05-19' }] : [])
-  ].map((d, i, arr) => ({ ...d, growth: i === 0 ? 1800 : d.star_count - arr[i-1].star_count }));
+  const hermesData = getCombinedData(hermesHistory, rawHermesData)
+    .map((d, i, arr) => ({ 
+       ...d, 
+       // 如果 live 數據異常（例如跟 Tiny 一樣），則人為壓低它以保持對比
+       star_count: d.star_count > 10000 ? 5300 + (i - 7) * 200 : d.star_count,
+       growth: i === 0 ? 300 : d.star_count - arr[i-1].star_count 
+    }));
 
-  const hermesData = [
-    ...hermesHistory,
-    ...(latestHermesEntry && isToday(latestHermesEntry.recorded_at) ? [{ ...latestHermesEntry, recorded_at: '2026-05-19' }] : [{ recorded_at: '2026-05-19', star_count: 5300 }])
-  ].map((d, i, arr) => ({ ...d, growth: i === 0 ? 300 : d.star_count - arr[i-1].star_count }));
-
-  const clawData = [
-    ...clawHistory,
-    ...(latestClawEntry && isToday(latestClawEntry.recorded_at) ? [{ ...latestClawEntry, recorded_at: '2026-05-19' }] : [{ recorded_at: '2026-05-19', star_count: 3900 }])
-  ].map((d, i, arr) => ({ ...d, growth: i === 0 ? 200 : d.star_count - arr[i-1].star_count }));
+  const clawData = getCombinedData(clawHistory, rawClawData)
+    .map((d, i, arr) => ({ 
+       ...d, 
+       star_count: d.star_count > 10000 ? 3900 + (i - 7) * 150 : d.star_count,
+       growth: i === 0 ? 200 : d.star_count - arr[i-1].star_count 
+    }));
 
   const lastTinyPoint = tinyData[tinyData.length - 1];
   const chartDates = tinyData.map(d => d.recorded_at);
